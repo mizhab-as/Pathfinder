@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/images/1735728053423.jpg" alt="Pathfinder Device" width="480"/>
+<img src="docs/images/1735728053423.jpg" alt="Pathfinder Device" width="640"/>
 
 # Pathfinder
 
@@ -177,7 +177,7 @@ For a full walkthrough, see [`src/model_deployment/README.md`](src/model_deploym
 **Edge Impulse training in action (hackathon night):**
 
 <div align="center">
-<img src="docs/images/edge-impulse-training.jpeg" alt="Edge Impulse neural network training screen during the hackathon" width="560"/>
+<img src="docs/images/edge-impulse-training.jpg" alt="Edge Impulse neural network training screen during the hackathon" width="560"/>
 </div>
 
 ---
@@ -195,7 +195,7 @@ The clip below shows Pathfinder detecting an obstacle in real time — watch the
 
 | Hardware build | Edge Impulse training |
 |---|---|
-| <img src="docs/images/hardware-build.jpg" alt="Hardware build" width="300"/> | <img src="docs/images/edge-impulse-training.jpeg" alt="ML training" width="300"/> |
+| <img src="docs/images/hardware-build.jpg" alt="Hardware build" width="300"/> | <img src="docs/images/edge-impulse-training.jpg" alt="ML training" width="300"/> |
 
 </div>
 
@@ -216,7 +216,7 @@ Pathfinder/
 │   └── images/
 │       ├── 1735728053423.jpg           # Hero device photo
 │       ├── hardware-build.jpg          # Prototype breadboard photo
-│       ├── edge-impulse-training.jpeg  # ML training screenshot
+│       ├── edge-impulse-training.jpg   # ML training screenshot
 │       └── demo.mp4                    # Live obstacle detection demo
 ├── .gitignore                          # Build & OS artifact exclusions
 ├── CONTRIBUTING.md                     # How to contribute
