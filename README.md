@@ -28,6 +28,7 @@
   - [Prerequisites](#prerequisites)
   - [Flash the Firmware](#flash-the-firmware)
   - [Edge Impulse ML Model](#edge-impulse-ml-model)
+- [Gallery & Demo](#-gallery--demo)
 - [Project Structure](#-project-structure)
 - [Team](#-team)
 - [License](#-license)
@@ -122,6 +123,12 @@ D6  (GPIO6)        →   Buzzer +
 
 For the full schematic, see [`hardware/schematic.md`](hardware/schematic.md).
 
+**Prototype breadboard build:**
+
+<div align="center">
+<img src="docs/images/hardware-build.jpg" alt="Pathfinder prototype — breadboard assembly with XIAO ESP32S3, HC-SR04, vibration motor and buzzer" width="380"/>
+</div>
+
 ---
 
 ## 💻 Software Setup
@@ -167,6 +174,31 @@ The TinyML object recognition model is trained on [Edge Impulse](https://edgeimp
 
 For a full walkthrough, see [`src/model_deployment/README.md`](src/model_deployment/README.md).
 
+**Edge Impulse training in action (hackathon night):**
+
+<div align="center">
+<img src="docs/images/edge-impulse-training.jpeg" alt="Edge Impulse neural network training screen during the hackathon" width="560"/>
+</div>
+
+---
+
+## 🎥 Gallery & Demo
+
+### Device in Action
+
+The clip below shows Pathfinder detecting an obstacle in real time — watch the vibration motor and buzzer respond as the object enters the warning and danger zones.
+
+> **▶️ [Click here to watch the demo video](docs/images/demo.mp4)**
+> *(Download or view raw on GitHub — video preview isn't supported inline in markdown)*
+
+<div align="center">
+
+| Hardware build | Edge Impulse training |
+|---|---|
+| <img src="docs/images/hardware-build.jpg" alt="Hardware build" width="300"/> | <img src="docs/images/edge-impulse-training.jpeg" alt="ML training" width="300"/> |
+
+</div>
+
 ---
 
 ## 📁 Project Structure
@@ -174,19 +206,23 @@ For a full walkthrough, see [`src/model_deployment/README.md`](src/model_deploym
 ```
 Pathfinder/
 ├── src/
-│   ├── main.ino                  # Main Arduino firmware
+│   ├── main.ino                        # Main Arduino firmware
 │   └── model_deployment/
-│       └── README.md             # Edge Impulse model deployment guide
+│       └── README.md                   # Edge Impulse model deployment guide
 ├── hardware/
-│   ├── components.md             # Bill of Materials (BOM)
-│   └── schematic.md              # Wiring diagram & connections
+│   ├── components.md                   # Bill of Materials (BOM)
+│   └── schematic.md                    # Wiring diagram & connections
 ├── docs/
-│   └── images/                   # Project photos & diagrams
-├── .gitignore                    # Build & OS artifact exclusions
-├── CONTRIBUTING.md               # How to contribute
-├── CHANGELOG.md                  # Version history
-├── LICENSE                       # MIT License
-└── README.md                     # You are here
+│   └── images/
+│       ├── 1735728053423.jpg           # Hero device photo
+│       ├── hardware-build.jpg          # Prototype breadboard photo
+│       ├── edge-impulse-training.jpeg  # ML training screenshot
+│       └── demo.mp4                    # Live obstacle detection demo
+├── .gitignore                          # Build & OS artifact exclusions
+├── CONTRIBUTING.md                     # How to contribute
+├── CHANGELOG.md                        # Version history
+├── LICENSE                             # MIT License
+└── README.md                           # You are here
 ```
 
 ---
