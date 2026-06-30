@@ -1,14 +1,18 @@
 /*
- * Pathfinder V1 - Navigation Assistant for Visually Impaired
- * 
+ * Pathfinder — Navigation Assistant for Visually Impaired
+ *
+ * A TinyML-powered device that detects obstacles and provides
+ * haptic + audio feedback to visually impaired users.
+ *
  * Created by Team VYSE at TinkerHub TinyML Hackathon 2024
  * Team Members:
- * - Jeevan Joseph
- * - Muzammil Latheef Seedi
- * - Mizhab A S
- * - Muhammed Irfan Nazar
- * 
- * Repository created: 2025-04-22
+ *   - Jeevan Joseph
+ *   - Muzammil Latheef Seedi
+ *   - Mizhab A S
+ *   - Muhammed Irfan Nazar
+ *
+ * GitHub: https://github.com/mizhab-as/Pathfinder-V1
+ * License: MIT
  */
 
 #include <NewPing.h>
@@ -50,7 +54,7 @@ void setup() {
   while (!Serial && (millis() - startTime < 5000));
   
   Serial.println("=================================");
-  Serial.println("  Pathfinder V1 - Initializing  ");
+  Serial.println("   Pathfinder  -  Initializing   ");
   Serial.println("=================================");
   
   // Initialize output pins
@@ -67,7 +71,7 @@ void setup() {
   //   Serial.println("Edge Impulse initialized successfully");
   // }
   
-  Serial.println("Pathfinder V1 - Ready to assist!");
+  Serial.println(" Pathfinder  -  Ready to assist! ");
   Serial.println("=================================");
 }
 

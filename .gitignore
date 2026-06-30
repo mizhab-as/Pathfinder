@@ -1,0 +1,65 @@
+# ============================================================
+# Pathfinder — .gitignore
+# ============================================================
+
+# ----- Arduino / PlatformIO build artifacts -----
+build/
+.pio/
+.pioenvs/
+.piolibdeps/
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+
+# ----- Arduino IDE temp files -----
+*.bak
+*.tmp
+
+# ----- Edge Impulse SDK (generated, not committed) -----
+src/model_deployment/ei-*-arduino-*.zip
+src/model_deployment/ei-*/
+
+# ----- Compiled model artifacts -----
+*.tflite
+*.h5
+*.pb
+
+# ----- Python (if any tooling scripts) -----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+
+# ----- OS artifacts -----
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ----- Editor / IDE -----
+.vscode/
+.idea/
+*.swp
+*.swo
+*.code-workspace
+
+# ----- Logs -----
+*.log
+logs/

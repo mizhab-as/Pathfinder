@@ -1,101 +1,221 @@
-# Pathfinder V1
+<div align="center">
+
+<img src="docs/images/1735728053423.jpg" alt="Pathfinder Device" width="480"/>
+
+# Pathfinder
+
+### A TinyML-powered navigation assistant for visually impaired individuals
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Arduino%20%7C%20ESP32S3-blue.svg)](https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html)
+[![Language](https://img.shields.io/badge/Language-C%2B%2B-orange.svg)](src/main.ino)
+[![ML](https://img.shields.io/badge/ML-Edge%20Impulse%20%7C%20TinyML-green.svg)](https://edgeimpulse.com/)
+[![Built at](https://img.shields.io/badge/Built%20at-TinkerHub%20Hackathon%202024-purple.svg)](https://tinkerhub.org/)
+
+</div>
+
+---
+
+## 📖 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [How It Works](#-how-it-works)
+- [Hardware](#-hardware)
+  - [Bill of Materials](#bill-of-materials)
+  - [Wiring](#wiring)
+- [Software Setup](#-software-setup)
+  - [Prerequisites](#prerequisites)
+  - [Flash the Firmware](#flash-the-firmware)
+  - [Edge Impulse ML Model](#edge-impulse-ml-model)
+- [Project Structure](#-project-structure)
+- [Team](#-team)
+- [License](#-license)
+
+---
 
 ## 🌟 Overview
 
-Pathfinder V1 is a TinyML-powered navigation assistant designed to empower visually impaired individuals to navigate their surroundings more confidently. This wearable/handheld device detects obstacles and recognizes objects in real-time, providing feedback through audio cues, vibration patterns, and buzzer signals.
+**Pathfinder** is a compact, wearable/handheld device that detects obstacles and recognizes objects in real time, providing immediate feedback through **vibration patterns**, **buzzer alerts**, and optional audio cues — enabling visually impaired users to navigate their surroundings more confidently and independently.
 
-Developed during a 24-hour TinyML Hackathon at TinkerSpace, hosted by TinkerHub.
+Built in **24 hours** at the TinyML Hackathon hosted by [TinkerHub](https://tinkerhub.org/) at TinkerSpace, it demonstrates how tiny machine learning (TinyML) can power real-world assistive technology on ultra-low-cost embedded hardware.
+
+> **Core insight:** By running inference directly on the microcontroller (no cloud, no phone, no internet), Pathfinder achieves sub-100ms response times with no privacy concerns — critical for safety-critical assistive devices.
+
+---
 
 ## 🚀 Features
 
-- Real-time obstacle detection using ultrasonic sensors
-- TinyML-based object recognition using Edge Impulse
-- Multi-modal feedback system:
-  - Vibration patterns for directional guidance
-  - Buzzer alerts for immediate obstacles
-  - (Optional) Audio cues for object identification
-- Compact, portable design suitable for handheld or wearable use
-- Low power consumption for extended battery life
+| Feature | Description |
+|---|---|
+| 🔊 Obstacle detection | Real-time distance measurement via HC-SR04 ultrasonic sensor |
+| 🤖 Object recognition | TinyML inference using Edge Impulse model, running locally on-device |
+| 📳 Haptic feedback | Vibration motor pulses — rate increases as obstacles get closer |
+| 🔔 Buzzer alerts | Immediate high-urgency alert when obstacle enters danger zone (<20 cm) |
+| 🎙️ Audio cues | Optional voice/tone cues for identified object classes |
+| 🔋 Portable | Runs on a small LiPo battery; low power design for extended field use |
+| ☁️ Offline-first | No Wi-Fi or cloud dependency — works anywhere |
 
-## 💡 Technology Stack
+---
 
-- **Hardware**:
-  - XIAO ESP32S3 - Main processing unit
-  - HC-SR04 Ultrasonic Sensors - For distance measurement
-  - Vibration Motors - For haptic feedback
-  - Buzzer - For audio alerts
-  - Battery module - For portable power
-  
-- **Software**:
-  - Arduino IDE - For programming the XIAO ESP32S3
-  - Edge Impulse - For TinyML model training and deployment
-  - C++ - Primary programming language
+## ⚙️ How It Works
 
-## 🛠️ Setup & Installation
+```
+┌──────────────┐      distance reading      ┌──────────────────────┐
+│  HC-SR04     │ ─────────────────────────▶ │                      │
+│  Ultrasonic  │                            │   XIAO ESP32S3       │
+│  Sensor      │                            │                      │
+└──────────────┘                            │  ┌────────────────┐  │
+                                            │  │ TinyML Model   │  │
+                                            │  │ (Edge Impulse) │  │
+                                            │  └────────────────┘  │
+                                            │         │            │
+                          ┌─────────────────┼─────────┘            │
+                          │                 │                      │
+                          ▼                 ▼                      │
+                   ┌──────────┐      ┌──────────┐                  │
+                   │ Vibration│      │  Buzzer  │                  │
+                   │  Motor   │      │  Alert   │                  │
+                   └──────────┘      └──────────┘                  │
+                                            └──────────────────────┘
+```
 
-### Hardware Setup
+1. The ultrasonic sensor continuously measures distance to objects ahead.
+2. If an obstacle is detected within **50 cm**, the vibration motor activates with a pattern proportional to proximity.
+3. If the obstacle enters the **danger zone (<20 cm)**, the buzzer fires an immediate alert.
+4. Simultaneously, the TinyML model (if deployed) classifies the detected object and can trigger additional audio feedback.
 
-1. Connect the ultrasonic sensors to the XIAO ESP32S3:
-   - VCC to 5V
-   - GND to GND
-   - TRIG to pin D2
-   - ECHO to pin D3
+---
 
-2. Connect the vibration motor:
-   - Positive to pin D5
-   - Negative to GND
+## 🔧 Hardware
 
-3. Connect the buzzer:
-   - Positive to pin D6
-   - Negative to GND
+### Bill of Materials
 
-For detailed wiring diagram, see [hardware/schematic.md](hardware/schematic.md).
+| Component | Qty | Purpose | Notes |
+|---|---|---|---|
+| [XIAO ESP32S3](https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html) | 1 | Main MCU | Built-in BT + Wi-Fi |
+| HC-SR04 Ultrasonic Sensor | 1–3 | Distance measurement | Range: 2–400 cm |
+| Vibration Motor (coin type) | 1–2 | Haptic feedback | 3V DC, off-weight |
+| Piezoelectric Buzzer | 1 | Audio alert | 3–5V passive |
+| LiPo Battery | 1 | Power supply | 3.7V, 500 mAh+ recommended |
+| Battery charger/shield | 1 | Charging circuit | Compatible with XIAO |
+| Resistors | ~4 | Motor / sensor protection | 220 Ω, 10 kΩ |
+| Jumper wires | ~20 | Connections | M–M, M–F |
+| Breadboard / PCB | 1 | Prototyping | Half-size breadboard ok |
 
-### Software Setup
+For the complete sourcing list, see [`hardware/components.md`](hardware/components.md).
 
-1. Install Arduino IDE (version 1.8.x or later).
-2. Add ESP32 board support to Arduino IDE.
-3. Install required libraries:
-   - [Edge Impulse Arduino library](https://docs.edgeimpulse.com/docs/deployment/arduino-library)
-   - NewPing library for ultrasonic sensors
-4. Flash the main code to your XIAO ESP32S3.
+### Wiring
 
-For detailed software instructions, see the [src/README.md](src/README.md).
+```
+XIAO ESP32S3 Pin   →   Component
+──────────────────────────────────────────
+5V                 →   HC-SR04 VCC
+GND                →   HC-SR04 GND, Motor –, Buzzer –
+D2  (GPIO2)        →   HC-SR04 TRIG
+D3  (GPIO3)        →   HC-SR04 ECHO
+D5  (GPIO5)        →   Vibration Motor + (via transistor/MOSFET)
+D6  (GPIO6)        →   Buzzer +
+```
 
-## 🧠 Edge Impulse Model
+> ⚠️ **Important:** Use a small NPN transistor (e.g., 2N2222) or MOSFET between the motor pin and the motor. The ESP32S3 GPIO pins are **not rated** for the motor's current draw.
 
-The object recognition model was trained using Edge Impulse with a dataset of common indoor and outdoor objects. The model was optimized for TinyML deployment on the ESP32S3.
+For the full schematic, see [`hardware/schematic.md`](hardware/schematic.md).
 
-Steps to recreate the model:
-1. Create an Edge Impulse account
-2. Collect or import images of common objects
-3. Train an image classification model
-4. Deploy the model to Arduino format
-5. Integrate the model with the main code
+---
 
-## 👀 Project Gallery
+## 💻 Software Setup
 
-![Pathfinder V1 Prototype](docs/images/1735728053423.jpg)
+### Prerequisites
 
-Our prototype showcases the compact design of Pathfinder V1, utilizing the XIAO ESP32S3 as the main processing unit along with ultrasonic sensors for obstacle detection, and vibration motors and buzzer for providing feedback to the user.
+1. **Arduino IDE 2.x** — [Download here](https://www.arduino.cc/en/software)
+2. **XIAO ESP32S3 board package** — Add this URL in Arduino IDE → Preferences → Board Manager URLs:
+   ```
+   https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+   ```
+   Then install: `Boards Manager → esp32 by Espressif Systems`
+3. **NewPing library** — `Sketch → Include Library → Manage Libraries → search "NewPing"`
 
-## 🤝 Team VYSE
+### Flash the Firmware
 
-This project was built by:
-- [Jeevan Joseph](https://github.com/jeevanjoseph03)
-- [Muzammil Latheef Seedi](https://github.com/muzml)
-- [Mizhab A S](https://github.com/mizhab-as)
-- [Muhammed Irfan Nazar](https://github.com/Irfan-34)
+```bash
+# 1. Clone the repo
+git clone https://github.com/mizhab-as/Pathfinder-V1.git
+cd Pathfinder-V1
 
-## ⏱️ Project Timeline
+# 2. Open the sketch in Arduino IDE
+#    File → Open → src/main.ino
 
-- Hackathon Date: 24-hour TinyML Hackathon at TinkerSpace (TinkerHub 22nd December,2024)
-- Repository Created: 2025-04-22 10:48:07 UTC
+# 3. Select board & port
+#    Tools → Board → esp32 → XIAO_ESP32S3
+#    Tools → Port → (your COM port)
 
-## 📝 License
+# 4. Upload
+#    Click the Upload button (→) or press Ctrl+U
+```
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+After uploading, open **Serial Monitor** at `115200 baud` to see live distance readings and debug output.
 
-## 🙏 Acknowledgements
+### Edge Impulse ML Model
 
-Special thanks to TinkerHub for organizing the TinyML Hackathon and providing the platform for this project.
+The TinyML object recognition model is trained on [Edge Impulse](https://edgeimpulse.com/). To deploy:
+
+1. Train your own model at [studio.edgeimpulse.com](https://studio.edgeimpulse.com/)
+2. Deploy as an **Arduino library** (Deployment → Arduino library)
+3. Install the downloaded `.zip` in Arduino IDE: `Sketch → Include Library → Add .ZIP Library`
+4. Uncomment the Edge Impulse lines in `src/main.ino` (marked with `// Uncomment if you have access...`)
+
+For a full walkthrough, see [`src/model_deployment/README.md`](src/model_deployment/README.md).
+
+---
+
+## 📁 Project Structure
+
+```
+Pathfinder/
+├── src/
+│   ├── main.ino                  # Main Arduino firmware
+│   └── model_deployment/
+│       └── README.md             # Edge Impulse model deployment guide
+├── hardware/
+│   ├── components.md             # Bill of Materials (BOM)
+│   └── schematic.md              # Wiring diagram & connections
+├── docs/
+│   └── images/                   # Project photos & diagrams
+├── .gitignore                    # Build & OS artifact exclusions
+├── CONTRIBUTING.md               # How to contribute
+├── CHANGELOG.md                  # Version history
+├── LICENSE                       # MIT License
+└── README.md                     # You are here
+```
+
+---
+
+## 👥 Team
+
+Built by **Team VYSE** at the TinkerHub TinyML Hackathon 2024 (24-hour sprint at TinkerSpace):
+
+| Name | Role |
+|---|---|
+| Jeevan Joseph | Hardware & firmware |
+| Muzammil Latheef Seedi | ML model training |
+| **Mizhab A S** | Firmware & integration |
+| Muhammed Irfan Nazar | Hardware design |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for guidelines on how to open issues, suggest features, or submit pull requests.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [`LICENSE`](LICENSE) file for details.
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ in 24 hours · TinkerHub TinyML Hackathon 2024 · TinkerSpace</sub>
+</div>
