@@ -147,7 +147,7 @@ For the full schematic, see [`hardware/schematic.md`](hardware/schematic.md).
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/mizhab-as/Pathfinder-V1.git
+git clone https://github.com/mizhab-as/Pathfinder.git
 cd Pathfinder-V1
 
 # 2. Open the sketch in Arduino IDE
